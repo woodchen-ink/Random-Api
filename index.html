@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>随机文件api-wood</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" size="32x32" href="https://cdn-img-r2.czl.net/woodchenink/2024/1/14/blackwood.jpg">
+    <style>
+        html,
+        body {
+            margin: 0;
+            color: #424242;
+            font-weight: 300;
+            font-family: "-apple-system", "BlinkMacSystemFont", "Helvetica Neue", "PingFang SC", "Microsoft YaHei",
+                "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", "sans-serif";
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        header {
+            padding: 40vh 0 8vh 0;
+            text-align: center;
+            font-weight: 100;
+            display: positive;
+            /* flex-direction: column; */
+            /* align-items: center; */
+            justify-content: space-between;
+            /* height: 100vh; */
+            overflow: hidden;
+            background: #6495ED;
+        }
+
+        #scroll-down {
+            background-color: transparent;
+            margin-top: 2rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            border: 2px solid #424242;
+            cursor: pointer;
+            animation: bounce 2s infinite 2s;
+        }
+
+        #scroll-down::before {
+            display: block;
+            content: "";
+            transform: rotate(-45deg) translate(0.15rem, 0.15rem);
+            width: 0.4rem;
+            height: 0.4rem;
+            border: 2px solid #424242;
+            border-width: 0px 0 2px 2px;
+        }
+
+        main {
+            padding: 1vw;
+        }
+
+        section {
+            padding: 1rem;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* height: 100vh; */
+            /* 使section占据整个视窗高度，你可以根据需要调整这个值 */
+        }
+
+        img {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@2.0.3/mdui.css">
+    <script src="https://unpkg.com/mdui@2.0.3/mdui.global.js"></script>
+    <script src="https://cdnjs.czl.net/ajax/libs/markdown-it/13.0.2/markdown-it.min.js"></script>
+</head>
+
+<body class="mdui-prose">
+    <mdui-layout>
+        <header>
+            <section>
+                <h1>Random-Api / 随机文件API </h1>
+                <h3>wood</h3>
+            </section>
+            <button id="scroll-down"></button>
+        </header>
+        <main style="margin:20px auto;">
+            <div id="markdown-content">
+            </div>
+        </main>
+    </mdui-layout>
+    <!-- 渲染markdown -->
+    <script>
+        // 创建带有配置的 markdown-it 实例
+        var md = window.markdownit({
+            html: true
+        });
+
+        // 异步加载 readme.md 文件内容
+        fetch('https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/index.md')
+            .then(response => response.text())
+            .then(markdownText => {
+                // 渲染 Markdown 内容
+                document.getElementById('markdown-content').innerHTML = md.render(markdownText);
+            })
+            .catch(error => console.error('Error loading readme.md:', error));
+    </script>
+</body>
+
+</html>

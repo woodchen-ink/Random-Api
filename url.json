@@ -1,0 +1,11 @@
+{
+    "pic": {
+      "all": "https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/url/pic/all.csv",
+      "fjht": "https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/url/pic/fjht.csv",
+      "whitebackground": "https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/url/pic/whitebackground.csv"
+    },
+    "video": {
+      "all": "https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/url/video/all.csv"
+    }
+}
+  
