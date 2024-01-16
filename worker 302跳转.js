@@ -1,5 +1,5 @@
 // 外部 JSON 文件的 URL
-const CSV_PATHS_URL = 'https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/url.json';
+const CSV_PATHS_URL = 'https://raw.githubusercontent.com/woodchen-ink/Random-Api/main/url.json';
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
@@ -36,19 +36,14 @@ async function handleRequest(request) {
       const randomIndex = Math.floor(Math.random() * fileArray.length);
       const randomUrl = fileArray[randomIndex];
 
-      // 用原请求的头部创建新的请求对象
-      const resourceRequest = new Request(randomUrl, {
-        headers: request.headers
-      });
-
-      // 直接从随机 URL 获取图片内容并返回
-      return fetch(resourceRequest);
+      // 返回302重定向到randomUrl,1更快，2方便排查
+      return Response.redirect(randomUrl, 302);
     } else {
       return new Response('CSV file could not be fetched.', { status: 500 });
     }
   } else {
     // 如果不是 CSV 资源路径，返回 index.html 内容
-    const indexHtmlResponse = await fetch('https://raw.githubusercontent.com/woodchen-ink/Random-Api/master/index.html');
+    const indexHtmlResponse = await fetch('https://raw.githubusercontent.com/woodchen-ink/Random-Api/main/index.html');
     return new Response(indexHtmlResponse.body, {
       headers: { 'Content-Type': 'text/html' },
     });
