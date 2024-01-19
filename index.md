@@ -12,7 +12,7 @@
 
 ## 原理
 
-> github地址： [https://github.com/woodchen-ink/Random-Api](https://github.com/woodchen-ink/Random-Api)
+> github地址： [https://github.com/woodchen-ink/Random-Api](https://github.com/woodchen-ink/Random-Api)  
 > 我的博客说明：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
 
 使用cloudflare worker配合github，实现获取path与csv_path关系，从 `url.csv` 文件中给出的链接来实现一个随机文件
