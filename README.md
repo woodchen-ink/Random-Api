@@ -2,15 +2,11 @@
 
 **请给个star，谢谢**
 
-## 完整说明请查看：
+## 部署/更新/接口说明请查看：
 
 [https://random-api.woodchen.ink](https://random-api.woodchen.ink)
 
 > 我的博客说明：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
-
-使用cloudflare worker配合github网页发布功能，实现获取path与csv_path关系，从 `url.csv` 文件中给出的链接来实现一个随机文件
-
-不仅可以放图片，还能放文本文件，视频，等等
 
 
 ## 感谢
@@ -21,11 +17,6 @@
                 
 * https://t.mwm.moe/
                 
-                
-## 自行部署
-                
-1. cloudflare 新建一个worker，把 worker.js文件的代码粘贴进去，保存（可以修改为自己的链接）
-2. 访问即可
 
 ## 赞赏
 
