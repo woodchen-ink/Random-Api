@@ -13,4 +13,6 @@
 ## 部署、更新和原理
 
 请见我的博客：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
+
+**2032年前可用**
                 
