@@ -1,5 +1,7 @@
 # Random-Api 随机文件API
 
+点击链接加入QQ频道【wood的创作者频道】：https://pd.qq.com/s/7omwt27ng
+
 **请给个star，谢谢**
 
 ## 使用链接
