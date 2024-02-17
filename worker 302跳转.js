@@ -1,5 +1,5 @@
 // 外部 JSON 文件的 URL
-const CSV_PATHS_URL = 'https://raw.githubusercontent.com/woodchen-ink/Random-Api/main/url.json';
+const CSV_PATHS_URL = 'https://random-api.pages.dev/url.json';
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
@@ -43,7 +43,7 @@ async function handleRequest(request) {
     }
   } else {
     // 如果不是 CSV 资源路径，返回 index.html 内容
-    const indexHtmlResponse = await fetch('https://raw.githubusercontent.com/woodchen-ink/Random-Api/main/index.html');
+    const indexHtmlResponse = await fetch('https://random-api.pages.dev');
     return new Response(indexHtmlResponse.body, {
       headers: { 'Content-Type': 'text/html' },
     });
