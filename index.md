@@ -7,7 +7,7 @@
 | 图片 | 所有     | [https://random-api.czl.net/pic/all](https://random-api.czl.net/pic/all) |
 | 图片 | 白底   | [https://random-api.czl.net/pic/whitebackground](https://random-api.czl.net/pic/whitebackground) |
 | 图片 | 风景横图 | [https://random-api.czl.net/pic/fjht](https://random-api.czl.net/pic/fjht) |
-| 图片 | 网站背景 | [https://random-api.czl.net/pic/website-background](https://random-api.czl.net/pic/website-background) |
+| 图片 | CZL网站背景 | [https://random-api.czl.net/pic/czlwb](https://random-api.czl.net/pic/czlwb) |
 | 视频 | 所有 | [https://random-api.czl.net/video/all](https://random-api.czl.net/video/all) |
 
 
