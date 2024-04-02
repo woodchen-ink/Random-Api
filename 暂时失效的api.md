@@ -16,3 +16,9 @@ https://t.mwm.moe/fj
 ## 白底图
 
 https://t.mwm.moe/bd
+
+## 图片太大了
+
+https://imgapi.cn/api.php?zd=zsy&fl=dongman
+https://api.likepoems.com/img/nature/
+https://api.likepoems.com/img/pc/
