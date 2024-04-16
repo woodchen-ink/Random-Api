@@ -22,3 +22,6 @@ https://t.mwm.moe/bd
 https://imgapi.cn/api.php?zd=zsy&fl=dongman
 https://api.likepoems.com/img/nature/
 https://api.likepoems.com/img/pc/
+
+
+https://www.dmoe.cc/random.php
