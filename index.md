@@ -17,6 +17,12 @@
 | ---------- | ---------------- | 
 | 所有 | [https://random-api.czl.net/video/all](https://random-api.czl.net/video/all) |
 
+## 功能测试(勿用)
+
+| 种类     | 请求地址   | 
+| ---------- | ---------------- | 
+| 格式测试     | [https://random-api.czl.net/pic/test](https://random-api.czl.net/pic/test) |
+
 
 ## 部署、更新和原理
 
