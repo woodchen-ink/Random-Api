@@ -4,7 +4,7 @@
 
 ## 使用链接
 
-[https://random-api.woodchen.ink](https://random-api.woodchen.ink)
+[https://random-api.czl.net](https://random-api.czl.net)
 
 ## 部署、更新和原理
 
