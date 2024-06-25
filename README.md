@@ -4,7 +4,7 @@
 
 ## 使用链接
 
-[https://random-api.woodchen.ink](https://random-api.woodchen.ink)
+[https://random-api.czl.net](https://random-api.czl.net)
 
 ## 部署、更新和原理
 
@@ -13,6 +13,8 @@
 ## 更新
 
 1. 新增使用腾讯Edgeone的边缘函数的实现方法，使用`eo.js`即可。
+2. 新增nodejs版本, 可以自行部署在国内服务器, 速度会快些.
+
 
 ## 提示
 
