@@ -4,7 +4,7 @@ const app = express();
 const port = 5003;
 
 // 外部 JSON 文件的 URL
-const CSV_PATHS_URL = 'https://random-api.pages.dev/url.json';
+const CSV_PATHS_URL = 'https://random-api-file.czl.net/url.json';
 
 /**
  * 处理客户端请求，并根据请求的URL路径获取对应的CSV文件中的随机一行的URL，然后重定向到该URL。
@@ -51,7 +51,7 @@ async function handleRequest(req, res) {
       }
     } else {
       // 请求路径不在配置中，返回默认首页
-      const indexHtmlResponse = await fetch('https://random-api.pages.dev');
+      const indexHtmlResponse = await fetch('https://random-api-file.czl.net');
       const indexHtml = await indexHtmlResponse.text();
       return res.type('html').send(indexHtml);
     }
