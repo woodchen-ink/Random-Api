@@ -29,5 +29,11 @@
 
 请见我的博客：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
 
+**2024.06.26更新**
+
+1. oracle存储桶的图片全部套上优选cloudfront CDN, 加快国内访问;
+2. 函数部署到Edgeone, 访问速度更快;
+3. 静态文件放到"上海阿里小机+ Edgeone缓存",因为小机器带宽比较低, 高并发太慢,还容易失败, 套了CDN, 直接缓存个一年嘿嘿;
+
 **永久可用**
                 
