@@ -3,6 +3,7 @@ https://random-api-file.czl.net/url/pic/fjht.csv
 https://random-api-file.czl.net/url/pic/czl-website-background.csv
 https://random-api-file.czl.net/url/pic/truegirl.csv
 https://random-api-file.czl.net/url/pic/ecy.csv
+https://random-api-file.czl.net/url/pic/ecy1.csv
 https://random-api-file.czl.net/url/pic/ecy2.csv
 https://random-api-file.czl.net/url/pic/test.csv
 https://random-api-file.czl.net/url/video/all.csv

@@ -7,7 +7,8 @@
 | 所有     | [https://random-api.czl.net/pic/all](https://random-api.czl.net/pic/all) |
 | CZL网站背景 | [https://random-api.czl.net/pic/czlwb](https://random-api.czl.net/pic/czlwb) |
 | 真人美女 | [https://random-api.czl.net/pic/truegirl](https://random-api.czl.net/pic/truegirl) |
-| 二次元 | [https://random-api.czl.net/pic/ecy](https://random-api.czl.net/pic/ecy) |
+| 二次元全部 | [https://random-api.czl.net/pic/ecy](https://random-api.czl.net/pic/ecy) |
+| 二次元1 | [https://random-api.czl.net/pic/ecy1](https://random-api.czl.net/pic/ecy1) |
 | 二次元2 | [https://random-api.czl.net/pic/ecy2](https://random-api.czl.net/pic/ecy2) |
 | 风景横图 | [https://random-api.czl.net/pic/fjht](https://random-api.czl.net/pic/fjht) |
 
