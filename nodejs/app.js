@@ -6,6 +6,36 @@ const port = 5003;
 // 外部 JSON 文件的 URL
 const CSV_PATHS_URL = 'https://random-api-file.czl.net/url.json';
 
+// 增强的日志中间件
+app.use((req, res, next) => {
+  const ip = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
+  const method = req.method;
+  const path = req.originalUrl;
+  const userAgent = req.get('User-Agent');
+  const referer = req.get('Referer') || 'N/A';
+  const accept = req.get('Accept');
+  const acceptEncoding = req.get('Accept-Encoding');
+  const acceptLanguage = req.get('Accept-Language');
+  const host = req.get('Host');
+  const protocol = req.protocol;
+
+  console.log(`
+[${new Date().toISOString()}]
+IP: ${ip}
+Method: ${method}
+Path: ${path}
+Protocol: ${protocol}
+Host: ${host}
+User-Agent: ${userAgent}
+Referer: ${referer}
+Accept: ${accept}
+Accept-Encoding: ${acceptEncoding}
+Accept-Language: ${acceptLanguage}
+  `);
+
+  next();
+});
+
 /**
  * 处理客户端请求，并根据请求的URL路径获取对应的CSV文件中的随机一行的URL，然后重定向到该URL。
  */
