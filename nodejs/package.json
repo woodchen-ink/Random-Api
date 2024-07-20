@@ -4,13 +4,17 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
-    "node-fetch": "^2.7.0"
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "lru-cache": "^6.0.0",
+    "node-fetch": "^2.6.1",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

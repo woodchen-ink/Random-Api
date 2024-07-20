@@ -1,92 +1,156 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const LRU = require('lru-cache');
+const compression = require('compression');
+const winston = require('winston');
+require('winston-daily-rotate-file');
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+
 const app = express();
 const port = 5003;
 
 // 外部 JSON 文件的 URL
 const CSV_PATHS_URL = 'https://random-api-file.czl.net/url.json';
 
+// 设置缓存
+let csvPathsCache = null;
+let lastFetchTime = 0;
+const CACHE_DURATION = 60 * 1000 *60 * 24; // 24小时
+
+const csvCache = new LRU({
+  max: 100, // 最多缓存100个CSV文件
+  maxAge: 1000 * 60 * 60 * 24 // 缓存24小时
+});
+
+//日志格式
+const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
+  return `${timestamp} ${level}: ${message}`;
+});
+// 设置日志
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        consoleFormat
+      ),
+    }),
+    new winston.transports.DailyRotateFile({
+      filename: 'logs/application-%DATE%.log',
+      datePattern: 'YYYY-MM-DD-HH',
+      zippedArchive: true,
+      maxSize: '20m',
+      maxFiles: '14d'
+    })
+  ]
+});
+
+
+// 使用压缩中间件
+app.use(compression());
+
+// 日志缓冲
+let logBuffer = [];
+
 // 增强的日志中间件
 app.use((req, res, next) => {
-  const ip = req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress;
-  const method = req.method;
-  const path = req.originalUrl;
-  const userAgent = req.get('User-Agent');
-  const referer = req.get('Referer') || 'N/A';
-  const accept = req.get('Accept');
-  const acceptEncoding = req.get('Accept-Encoding');
-  const acceptLanguage = req.get('Accept-Language');
-  const host = req.get('Host');
-  const protocol = req.protocol;
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    ip: req.headers['x-forwarded-for'] || req.ip || req.connection.remoteAddress,
+    method: req.method,
+    path: req.originalUrl,
+    protocol: req.protocol,
+    host: req.get('Host'),
+    userAgent: req.get('User-Agent'),
+    referer: req.get('Referer') || 'N/A',
+    accept: req.get('Accept'),
+    acceptEncoding: req.get('Accept-Encoding'),
+    acceptLanguage: req.get('Accept-Language')
+  };
 
-  console.log(`
-[${new Date().toISOString()}]
-IP: ${ip}
-Method: ${method}
-Path: ${path}
-Protocol: ${protocol}
-Host: ${host}
-User-Agent: ${userAgent}
-Referer: ${referer}
-Accept: ${accept}
-Accept-Encoding: ${acceptEncoding}
-Accept-Language: ${acceptLanguage}
-  `);
+  // 立即输出到控制台
+  console.log(JSON.stringify(logEntry));
+
+  // 添加到缓冲区，用于每小时写入文件
+  logBuffer.push(logEntry);
 
   next();
 });
 
-/**
- * 处理客户端请求，并根据请求的URL路径获取对应的CSV文件中的随机一行的URL，然后重定向到该URL。
- */
+// 每小时输出一次日志
+setInterval(() => {
+  if (logBuffer.length > 0) {
+    logger.info('Hourly log', { logs: logBuffer });
+    logBuffer = [];
+  }
+}, 60 * 60 * 1000); // 每小时
+
+async function getCsvPaths() {
+  const now = Date.now();
+  if (!csvPathsCache || now - lastFetchTime > CACHE_DURATION) {
+    const response = await fetch(CSV_PATHS_URL);
+    if (response.ok) {
+      csvPathsCache = await response.json();
+      lastFetchTime = now;
+    }
+  }
+  return csvPathsCache;
+}
+
+async function getCsvContent(url) {
+  if (csvCache.has(url)) {
+    return csvCache.get(url);
+  }
+  const response = await fetch(url);
+  if (response.ok) {
+    const content = await response.text();
+    csvCache.set(url, content);
+    return content;
+  }
+  return null;
+}
+
 async function handleRequest(req, res) {
   try {
-    // 从CSV_PATHS_URL获取CSV文件路径配置
-    const csvPathsResponse = await fetch(CSV_PATHS_URL);
-    if (!csvPathsResponse.ok) {
+    const csvPaths = await getCsvPaths();
+    if (!csvPaths) {
       return res.status(500).send('CSV paths configuration could not be fetched.');
     }
-    const csvPaths = await csvPathsResponse.json();
 
-    // 解析请求的URL路径
-    let path = req.path.slice(1); // 移除路径前的斜杠
-    path = path.split('?')[0]; // 移除问号后的部分
+    let path = req.path.slice(1);
+    path = path.split('?')[0];
     if (path.endsWith('/')) {
-      path = path.slice(0, -1); // 移除路径后的斜杠
+      path = path.slice(0, -1);
     }
 
-    // 分割路径为前缀和后缀
     const pathSegments = path.split('/');
     const prefix = pathSegments[0];
     const suffix = pathSegments.slice(1).join('/');
 
-    // 检查请求路径是否在CSV路径配置中
     if (prefix in csvPaths && suffix in csvPaths[prefix]) {
-      // 根据配置获取对应的CSV文件URL
       const csvUrl = csvPaths[prefix][suffix];
-      // 从CSV文件URL获取文件内容
-      const fileArrayResponse = await fetch(csvUrl);
-      if (fileArrayResponse.ok) {
-        // 处理CSV文件内容，过滤空行和注释行
-        const fileArrayText = await fileArrayResponse.text();
+      const fileArrayText = await getCsvContent(csvUrl);
+      if (fileArrayText) {
         const fileArray = fileArrayText.split('\n').filter(line => Boolean(line) && !line.trim().startsWith('#'));
-
-        // 随机选择一行URL进行重定向
-        const randomIndex = Math.floor(Math.random() * fileArray.length);
-        const randomUrl = fileArray[randomIndex];
-
+        const randomUrl = fileArray[Math.floor(Math.random() * fileArray.length)];
         return res.redirect(302, randomUrl);
       } else {
         return res.status(500).send('CSV file could not be fetched.');
       }
     } else {
-      // 请求路径不在配置中，返回默认首页
       const indexHtmlResponse = await fetch('https://random-api-file.czl.net');
       const indexHtml = await indexHtmlResponse.text();
       return res.type('html').send(indexHtml);
     }
   } catch (error) {
     console.error('Error:', error);
+    logger.error('Error:', error);
     res.status(500).send('Internal Server Error');
   }
 }
@@ -94,7 +158,22 @@ async function handleRequest(req, res) {
 // 处理所有路由
 app.get('*', handleRequest);
 
-// 启动服务器
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// 使用 cluster 模块
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+} else {
+  // Workers can share any TCP connection
+  // In this case it is an HTTP server
+  app.listen(port, () => {
+    console.log(`Worker ${process.pid} started on port ${port}`);
+  });
+}
