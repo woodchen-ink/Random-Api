@@ -20,14 +20,13 @@
 | 所有 | [https://random-api.czl.net/video/all](https://random-api.czl.net/video/all) |
 
 
-## 部署、更新和原理
+## 部署和原理
 
 请见我的博客：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
 
-**2024.06.28更新**
+## 讨论
 
-1. md,eo边缘函数的SLA太低了,天天抽风,换nodejs部署了
-2. url走内网,一个外部调用的index.md也不用套cdn了
+请在github上提issue或者在上面我的博客文章下留言，谢谢。
 
 **永久可用**
                 
