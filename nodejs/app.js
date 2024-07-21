@@ -23,37 +23,44 @@ const csvCache = new LRU({
   maxAge: 1000 * 60 * 60 * 24 // 缓存24小时
 });
 
-//日志格式
+//日志名称格式
 const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
+});
+// 自定义日志格式
+const customFormat = winston.format.printf(({ level, message, timestamp, ...metadata }) => {
+  let msg = `${timestamp} [${level}]: `;
+  
+  if (typeof message === 'object') {
+    msg += JSON.stringify(message, null, 2);
+  } else {
+    msg += message;
+  }
+
+  if (metadata.logs) {
+    msg += '\n' + metadata.logs.map(log => JSON.stringify(log, null, 2)).join('\n');
+  }
+
+  return msg;
 });
 // 设置日志
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    customFormat
   ),
   transports: [
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        consoleFormat
-      ),
-    }),
+    new winston.transports.Console(),
     new winston.transports.DailyRotateFile({
       filename: 'logs/application-%DATE%.log',
       datePattern: 'YYYY-MM-DD-HH',
-      zippedArchive: true,
       maxSize: '20m',
-      maxFiles: '14d'
+      maxFiles: '7d', //日志保存的时间，超过这个时间的会自动删除旧文件
+      zippedArchive: false // 禁用压缩
     })
   ]
 });
-
-
-// 使用压缩中间件
-app.use(compression());
 
 // 日志缓冲
 let logBuffer = [];
@@ -75,7 +82,7 @@ app.use((req, res, next) => {
   };
 
   // 立即输出到控制台
-  console.log(JSON.stringify(logEntry));
+  logger.info(logEntry);
 
   // 添加到缓冲区，用于每小时写入文件
   logBuffer.push(logEntry);
@@ -83,7 +90,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// 每小时输出一次日志
+// 每小时输出一次日志到文件
 setInterval(() => {
   if (logBuffer.length > 0) {
     logger.info('Hourly log', { logs: logBuffer });
