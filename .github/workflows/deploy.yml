@@ -39,10 +39,10 @@ jobs:
           rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index/*
 
           # 移动文件，采用覆盖模式
-          mv -f /opt/1panel/apps/openresty/openresty/www/sites/random-api.net/index2/* /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index/
+          mv -f /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index2/* /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index/
 
           # 删除 index2 文件夹
-          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.net/index2
+          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index2
 
           # 设置目录及其子文件的所有权和权限
           chown -R 1000:1000 /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index
