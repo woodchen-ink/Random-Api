@@ -1,5 +1,5 @@
 // 外部 JSON 文件的 URL
-const CSV_PATHS_URL = 'https://random-api-file.czl.net/url.json';
+const CSV_PATHS_URL = 'https://random-api.czl.net/url.json';
 
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request));
@@ -58,7 +58,7 @@ async function handleRequest(request) {
     }
   } else {
     // 请求路径不在配置中，返回默认首页
-    const indexHtmlResponse = await fetch('https://random-api-file.czl.net');
+    const indexHtmlResponse = await fetch('https://random-api.czl.net');
     return new Response(indexHtmlResponse.body, {
       headers: { 'Content-Type': 'text/html' },
     });

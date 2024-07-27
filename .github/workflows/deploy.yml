@@ -33,20 +33,20 @@ jobs:
         key: ${{ secrets.SERVER_SSH_KEY }}
         script: |
           # 解压文件
-          unzip -o /tmp/deployment.zip -d /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index2
+          unzip -o /tmp/deployment.zip -d /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index2
 
           # 删除 index 目录下的所有文件
-          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index/*
+          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index/*
 
           # 移动文件，采用覆盖模式
-          mv -f /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index2/* /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index/
+          mv -f /opt/1panel/apps/openresty/openresty/www/sites/random-api.net/index2/* /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index/
 
           # 删除 index2 文件夹
-          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index2
+          rm -rf /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.net/index2
 
           # 设置目录及其子文件的所有权和权限
-          chown -R 1000:1000 /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index
-          chmod -R 0755 /opt/1panel/apps/openresty/openresty/www/sites/random-api-file.czl.net/index
+          chown -R 1000:1000 /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index
+          chmod -R 0755 /opt/1panel/apps/openresty/openresty/www/sites/random-api.czl.net/index
 
           # 清理临时文件
           rm /tmp/deployment.zip

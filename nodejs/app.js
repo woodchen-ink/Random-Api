@@ -6,12 +6,16 @@ const winston = require('winston');
 require('winston-daily-rotate-file');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const path = require('path'); // 添加这行来导入 path 模块
 
 const app = express();
 const port = 5003;
 
+// 设置静态文件目录
+app.use(express.static(path.join(__dirname, 'public')));
+
 // 外部 JSON 文件的 URL
-const CSV_PATHS_URL = 'https://random-api-file.czl.net/url.json';
+const CSV_PATHS_URL = 'https://random-api.czl.net/url.json';
 
 // 设置缓存
 let csvPathsCache = null;
@@ -151,7 +155,7 @@ async function handleRequest(req, res) {
         return res.status(500).send('CSV file could not be fetched.');
       }
     } else {
-      const indexHtmlResponse = await fetch('https://random-api-file.czl.net');
+      const indexHtmlResponse = await fetch('https://random-api.czl.net');
       const indexHtml = await indexHtmlResponse.text();
       return res.type('html').send(indexHtml);
     }

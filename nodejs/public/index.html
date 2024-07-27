@@ -110,7 +110,7 @@
         });
 
         // 异步加载 index.md 文件内容
-        fetch('https://random-api-file.czl.net/index.md')
+        fetch('./index.md')
             .then(response => response.text())
             .then(markdownText => {
                 // 渲染 Markdown 内容
