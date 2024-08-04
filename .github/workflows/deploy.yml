@@ -50,3 +50,6 @@ jobs:
 
           # 清理临时文件
           rm /tmp/deployment.zip
+
+          # 重启容器
+          docker restart random-api

@@ -22,11 +22,11 @@
 
 ## 部署和原理
 
-请见我的博客：[https://woodchen.ink/archives/1705367469203](https://woodchen.ink/archives/1705367469203)
+请见我的帖子：[https://q58.org/questions/D1U1](https://q58.org/questions/D1U1)
 
 ## 讨论
 
-请在github上提issue或者在上面我的博客文章下留言，谢谢。
+请在帖子下留言，我看到后会回复，谢谢。
 
 **永久可用**
                 
