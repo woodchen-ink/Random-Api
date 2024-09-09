@@ -7,6 +7,11 @@ import 'winston-daily-rotate-file';
 import cluster from 'cluster';
 import { cpus } from 'os';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// 处理 __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const numCPUs = cpus().length;
 
@@ -22,14 +27,14 @@ const CSV_PATHS_URL = 'https://random-api.czl.net/url.json';
 // 设置缓存
 let csvPathsCache = null;
 let lastFetchTime = 0;
-const CACHE_DURATION = 60 * 1000 *60 * 24; // 24小时
+const CACHE_DURATION = 60 * 1000 * 60 * 24; // 24小时
 
 const csvCache = new LRU({
   max: 100, // 最多缓存100个CSV文件
   maxAge: 1000 * 60 * 60 * 24 // 缓存24小时
 });
 
-//日志名称格式
+// 日志名称格式
 const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
@@ -62,7 +67,7 @@ const logger = winston.createLogger({
       filename: 'logs/application-%DATE%.log',
       datePattern: 'YYYY-MM-DD-HH',
       maxSize: '20m',
-      maxFiles: '7d', //日志保存的时间，超过这个时间的会自动删除旧文件
+      maxFiles: '7d', // 日志保存的时间，超过这个时间的会自动删除旧文件
       zippedArchive: false // 禁用压缩
     })
   ]
