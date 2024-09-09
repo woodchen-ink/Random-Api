@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node app.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
