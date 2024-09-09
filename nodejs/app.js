@@ -1,6 +1,6 @@
 import express from 'express';
 import fetch from 'node-fetch';
-import LRU from 'lru-cache';
+import { LRUCache } from 'lru-cache'; // 使用命名导入
 import compression from 'compression';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
@@ -29,9 +29,10 @@ let csvPathsCache = null;
 let lastFetchTime = 0;
 const CACHE_DURATION = 60 * 1000 * 60 * 24; // 24小时
 
-const csvCache = new LRU({
+// 使用新的 LRUCache 构造函数
+const csvCache = new LRUCache({
   max: 100, // 最多缓存100个CSV文件
-  maxAge: 1000 * 60 * 60 * 24 // 缓存24小时
+  ttl: 1000 * 60 * 60 * 24 // 缓存24小时
 });
 
 // 日志名称格式
