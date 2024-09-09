@@ -1,12 +1,14 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const LRU = require('lru-cache');
-const compression = require('compression');
-const winston = require('winston');
-require('winston-daily-rotate-file');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-const path = require('path'); // 添加这行来导入 path 模块
+import express from 'express';
+import fetch from 'node-fetch';
+import LRU from 'lru-cache';
+import compression from 'compression';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
+import cluster from 'cluster';
+import { cpus } from 'os';
+import path from 'path';
+
+const numCPUs = cpus().length;
 
 const app = express();
 const port = 5003;
