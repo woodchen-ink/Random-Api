@@ -6,14 +6,15 @@
   "scripts": {
     "test": "node app.js"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
     "express": "^4.17.1",
-    "lru-cache": "^6.0.0",
-    "node-fetch": "^2.6.1",
+    "lru-cache": "^11.0.1",
+    "node-fetch": "^3.3.2",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^5.0.0"
   }

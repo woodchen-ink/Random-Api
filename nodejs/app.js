@@ -1,12 +1,19 @@
-const express = require('express');
-const fetch = require('node-fetch');
-const LRU = require('lru-cache');
-const compression = require('compression');
-const winston = require('winston');
-require('winston-daily-rotate-file');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
-const path = require('path'); // 添加这行来导入 path 模块
+import express from 'express';
+import fetch from 'node-fetch';
+import { LRUCache } from 'lru-cache'; // 使用命名导入
+import compression from 'compression';
+import winston from 'winston';
+import 'winston-daily-rotate-file';
+import cluster from 'cluster';
+import { cpus } from 'os';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// 处理 __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const numCPUs = cpus().length;
 
 const app = express();
 const port = 5003;
@@ -20,14 +27,15 @@ const CSV_PATHS_URL = 'https://random-api.czl.net/url.json';
 // 设置缓存
 let csvPathsCache = null;
 let lastFetchTime = 0;
-const CACHE_DURATION = 60 * 1000 *60 * 24; // 24小时
+const CACHE_DURATION = 60 * 1000 * 60 * 24; // 24小时
 
-const csvCache = new LRU({
+// 使用新的 LRUCache 构造函数
+const csvCache = new LRUCache({
   max: 100, // 最多缓存100个CSV文件
-  maxAge: 1000 * 60 * 60 * 24 // 缓存24小时
+  ttl: 1000 * 60 * 60 * 24 // 缓存24小时
 });
 
-//日志名称格式
+// 日志名称格式
 const consoleFormat = winston.format.printf(({ level, message, timestamp }) => {
   return `${timestamp} ${level}: ${message}`;
 });
@@ -60,7 +68,7 @@ const logger = winston.createLogger({
       filename: 'logs/application-%DATE%.log',
       datePattern: 'YYYY-MM-DD-HH',
       maxSize: '20m',
-      maxFiles: '7d', //日志保存的时间，超过这个时间的会自动删除旧文件
+      maxFiles: '7d', // 日志保存的时间，超过这个时间的会自动删除旧文件
       zippedArchive: false // 禁用压缩
     })
   ]
