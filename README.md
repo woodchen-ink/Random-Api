@@ -1,5 +1,7 @@
 # Random-Api 随机文件API
 
+本项目已迁移至: [random-api-go](https://github.com/woodchen-ink/random-api-go)
+
 **请给个star，谢谢**
 
 ## 使用链接
